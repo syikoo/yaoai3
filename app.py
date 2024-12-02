@@ -16,6 +16,17 @@ st.markdown("""
             background-color: #f8f9fa;
         }
         
+        /* メニューリンクのスタイル */
+        .menu-link {
+            display: block;
+            padding: 0.5rem 0;
+            color: #1f2937;
+            text-decoration: none;
+        }
+        .menu-link:hover {
+            color: #2563eb;
+        }
+        
         /* チャット画面のスタイル */
         .chat-container {
             height: 90vh;
@@ -35,8 +46,8 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # セッション状態の初期化
-if 'selected_template' not in st.session_state:
-    st.session_state.selected_template = None
+if 'selected_template_url' not in st.session_state:
+    st.session_state.selected_template_url = None
 
 # メインコンテンツエリアを2:8の比率で分割
 menu_col, main_col = st.columns([2, 8])
@@ -47,21 +58,23 @@ with menu_col:
     for category, templates in TEMPLATES.items():
         with st.expander(category, expanded=True):
             for template in templates:
-                if st.button(template['title'], key=f"select_{template['title']}", use_container_width=True):
-                    st.session_state.selected_template = template
+                # リンク形式でテンプレートを表示
+                if st.markdown(
+                    f"""<a href="#" class="menu-link" 
+                    onclick="parent.postMessage('{template['dify_url']}', '*')">{template['title']}</a>""",
+                    unsafe_allow_html=True
+                ):
+                    st.session_state.selected_template_url = template['dify_url']
 
 # 右側チャットエリア
 with main_col:
-    if st.session_state.selected_template:
-        template = st.session_state.selected_template
-        chat_url = template['dify_url']
-        
+    if st.session_state.selected_template_url:
         # iframeでチャットボットを表示
         st.markdown(
             f"""
             <div class="chat-container">
                 <iframe
-                    src="{chat_url}"
+                    src="{st.session_state.selected_template_url}"
                     style="width: 100%; height: 100%;"
                     frameborder="0"
                     allow="microphone">
@@ -80,3 +93,15 @@ with main_col:
             """,
             unsafe_allow_html=True
         )
+
+# JavaScriptでURLの更新を処理
+st.markdown("""
+<script>
+window.addEventListener('message', function(e) {
+    if (typeof e.data === 'string' && e.data.startsWith('http')) {
+        window.location.hash = e.data;
+        location.reload();
+    }
+}, false);
+</script>
+""", unsafe_allow_html=True)
