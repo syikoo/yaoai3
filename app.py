@@ -46,6 +46,11 @@ st.markdown("""
             width: 100%;
             margin: 1rem 0;
         }
+
+        /* フォームのスタイル */
+        .stButton button {
+            width: 100%;
+        }
     </style>
 """, unsafe_allow_html=True)
 
@@ -55,7 +60,7 @@ if 'selected_template' not in st.session_state:
 if 'chat_started' not in st.session_state:
     st.session_state.chat_started = False
 
-# テンプレート選択のコールバック
+# コールバック関数
 def select_template(template):
     st.session_state.selected_template = template
     st.session_state.chat_started = False
@@ -86,9 +91,15 @@ with detail_col:
         with st.form("template_form"):
             input_values = {}
             if 'variables' in template:
-                for var_name, var_desc in template['variables'].items():
+                for var_name, var_info in template['variables'].items():
+                    # デフォルト値の取得
+                    default_value = var_info.get('default', '') if isinstance(var_info, dict) else ''
+                    # 説明文の取得
+                    description = var_info.get('description', var_info) if isinstance(var_info, dict) else var_info
+                    
                     input_values[var_name] = st.text_input(
-                        var_desc,
+                        description,
+                        value=default_value,
                         key=f"input_{var_name}"
                     )
             
@@ -138,8 +149,8 @@ with chat_col:
                     width="100%"
                     height="100%"
                     frameborder="0"
-                    allow="microphone"
-                ></iframe>
+                    allow="microphone">
+                </iframe>
             </div>
             """,
             unsafe_allow_html=True

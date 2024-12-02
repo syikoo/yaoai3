@@ -1,92 +1,73 @@
-# 自動車修理工場向けチャットボットのテンプレート定義
+# 自動車レビューにおけるAI技術評価
 TEMPLATES = {
-    "市場調査": [
+    "正確性": [
         {
-            "title": "人気車種検索",
-            "description": "指定されたジャンルや価格帯の人気車種をリストアップします",
+            "title": "1-1 正確性：指定項目抽出 (テキスト文)",
+            "description": "特定車種の最新モデルについて、#項目に沿って正確な情報を収集する",
             "variables": {
-                "car_type": "車両ジャンル（例：軽自動車、コンパクトカー、SUV）",
-                "price_range": "価格帯（例：200万円以下、200-300万円）"
+                "company": { "description": "会社名", "default": "ヤマハ" },
+                "model": { "description": "モデル", "default": "MT-09" }
             },
-            "system_prompt": """あなたは自動車のマーケットアナリストです。
-最新の市場動向と売上データに基づいて、具体的な車種名、価格、特徴を含む詳細な提案を行います。
-各車種について以下の情報を提供してください：
-- モデル名と価格
-- 燃費性能
-- 主な特徴（安全装備、居住性など）
-- 購入者の評価ポイント""",
-            "initial_prompt": "ご指定のジャンルと価格帯の人気車種を、具体的な特徴と共にご紹介します。追加のご要望や詳細を確認したい点がございましたら、お申し付けください。",
-            "dify_url": "https://udify.app/chatbot/vxesyfclxCKH67oH"
+            "system_prompt": """ 略 """,
+            "initial_prompt": "略",
+            "dify_url": "https://udify.app/chatbot/Ggjt9ahkeh3XaSGu"
         },
         {
-            "title": "類似車種検索",
-            "description": "指定された車両の競合車種を探します",
+            "title": "1-2 正確性：指定項目抽出 (ネット検索)",
+            "description": """特定車種の最新モデルについて、#サイトから、#項目に沿って正確な情報を収集する。
+              サイト名：https://www.bikebros.co.jp/catalog/""",
             "variables": {
-                "car_model": "車両名（例：トヨタ・カローラ）"
+                "company": { "description": "会社名", "default": "ヤマハ" },
+                "model": { "description": "モデル", "default": "MT-09" }
             },
-            "system_prompt": """あなたは自動車コンサルタントです。
-指定された車種と同じセグメントの競合車種について、以下の観点で比較分析を行います：
-- 価格帯の類似性
-- サイズや車両重量
-- エンジン性能と燃費
-- 装備グレードの対応関係
-具体的な数値やスペックを含めて説明してください。""",
-            "initial_prompt": "ご指定の車種の競合モデルを、特徴の比較と共にご紹介します。特に注目したい点（価格、燃費、安全装備など）がございましたら、お申し付けください。",
-            "dify_url": "https://chat.dify.ai/embed/XXXX2"
-        }
-    ],
-    "修理作業": [
-        {
-            "title": "修理部品検索",
-            "description": "車両の症状から必要な修理部品を特定します",
-            "variables": {
-                "car_model": "車両名（例：ホンダ・フィット）",
-                "symptom": "症状（例：エンジン始動時の異音）"
-            },
-            "system_prompt": """あなたは自動車整備士です。
-症状と車種から考えられる故障箇所と必要な部品を提案します。回答には以下を含めてください：
-- 考えられる故障箇所のリスト
-- 必要な交換部品と部品番号
-- 故障の重症度と緊急性
-- 予想される修理費用の範囲
-交換部品は純正部品を基準に説明し、社外品の選択肢がある場合はその旨も記載します。""",
-            "initial_prompt": "ご指定の症状について、考えられる原因と必要な部品をご案内いたします。より詳しい状況（走行距離、発生頻度など）をお聞かせいただけますと、より正確な診断が可能です。",
-            "dify_url": "https://udify.app/chatbot/vxesyfclxCKH67oH"
+            "system_prompt": """ 略 """,
+            "initial_prompt": "略",
+            "dify_url": "https://udify.app/chatbot/2hvNKk3HoLIxLHM0"
         },
         {
-            "title": "整備手順案内",
-            "description": "指定された整備作業の手順を説明します",
+            "title": "1-3 正確性：項目抽出立案",
+            "description": """競合他社ごとに、**特定車種Aと競合する可能性のあるモデル**を競合になりうる順に順位付けする。""",
             "variables": {
-                "maintenance_type": "整備の種類（例：オイル交換、タイヤ交換）"
+                "company": { "description": "会社名", "default": "ヤマハ" },
+                "model": { "description": "モデル", "default": "MT-09" }
             },
-            "system_prompt": """あなたは熟練の自動車整備士です。
-整備作業の手順を以下の項目に従って詳しく説明します：
-- 必要な工具リスト
-- 作業の所要時間
-- 詳細な手順（安全上の注意点を含む）
-- 確認すべきポイントと品質チェック項目
-整備士向けの専門的な説明を心がけ、具体的な数値（トルク値など）も含めてください。""",
-            "initial_prompt": "ご指定の整備作業について、手順を詳しくご案内いたします。特に注意が必要な点や、車種特有の留意事項などございましたら、お申し付けください。",
-            "dify_url": "https://udify.app/chatbot/vxesyfclxCKH67oH"
+            "system_prompt": """ 略 """,
+            "initial_prompt": "略",
+            "dify_url": "https://udify.app/chatbot/Esg59l58dpBfU2Iy"
         }
     ],
-    "修理予約": [
+    "ゆらぎ・要約・翻訳": [
         {
-            "title": "予約スケジューリング",
-            "description": "整備内容と希望日時から最適な予約枠を提案します",
+            "title": "2 類似名検索",
+            "description": "対象車種の部品に関するレビュー情報を検索し、指定された用語について以下の条件に従い情報を抜き出す",
             "variables": {
-                "service_type": "整備内容（例：車検、定期点検、修理）",
-                "preferred_date": "希望日（例：2024-12-1）"
+                "company": { "description": "会社名", "default": "ヤマハ" },
+                "model": { "description": "モデル", "default": "MT-09" },
+                "part_name": { "description": "部品名", "default": "ブレーキ" }
             },
-            "system_prompt": """あなたは自動車整備工場の予約管理者です。
-整備内容と希望日から最適な予約枠を提案します。以下の点を考慮して回答してください：
-- 整備内容による所要時間の見積もり
-- 必要な特殊設備の確認
-- 部品の在庫状況や取り寄せ時間
-- 整備士の稼働状況
-予約枠の提案では、できるだけ具体的な時間枠を示してください。""",
-            "initial_prompt": "ご希望の整備内容と日時をもとに、最適な予約枠をご提案いたします。お車の車種や走行距離などの情報もいただけますと、より正確な所要時間を見積もることができます。",
-            "dify_url": "https://udify.app/chatbot/vxesyfclxCKH67oH"
+            "system_prompt": """ 略 """,
+            "initial_prompt": "略",
+            "dify_url": "https://udify.app/chatbot/40cFSdfIOiNjWfJM"
+        },
+        {
+            "title": "3 要約：長文レビューの要約(_)MT-09限定)",
+            "description": "添付のレビュー情報を、バイクの設計者が新しいバイクの設計に活かせる部分を抜粋し、指定字数以内で要約する",
+            "variables": {
+                "Charactor_count": { "description": "要約した結果の文字数", "default": "200" }
+            },
+            "system_prompt": """ 略 """,
+            "initial_prompt": "略",
+            "dify_url": "https://udify.app/chatbot/WDYGyjkBYCdzjX2a"
+        },
+        {
+            "title": "4 翻訳：インドネシア語の翻訳)",
+            "description": "インドネシア語を自然な日本語になるように翻訳する",
+            "variables": {
+                "Charactor_count": { "description": "要約した結果の文字数", "default": "200" }
+            },
+            "system_prompt": """ 略 """,
+            "initial_prompt": "略",
+            "dify_url": "https://udify.app/chatbot/2RY8YDGM6aS4tmGz"
         }
     ]
 }
