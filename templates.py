@@ -10,7 +10,11 @@ TEMPLATES = {
             },
             "system_prompt": """ 略 """,
             "initial_prompt": "略",
-            "dify_url": "https://udify.app/chatbot/Ggjt9ahkeh3XaSGu"
+            "dify_config": {
+                "iframe_url": "https://udify.app/chatbot/Ggjt9ahkeh3XaSGu",
+                "base_url": "https://api.dify.ai/v1",
+                "token": "Ggjt9ahkeh3XaSGu"
+            }
         },
         {
             "title": "1-2 正確性：指定項目抽出 (ネット検索)",
@@ -22,7 +26,27 @@ TEMPLATES = {
             },
             "system_prompt": """ 略 """,
             "initial_prompt": "略",
-            "dify_url": "https://udify.app/chatbot/2hvNKk3HoLIxLHM0"
+            "dify_config": {
+                "iframe_url": "https://udify.app/chatbot/2hvNKk3HoLIxLHM0",
+                "base_url": "https://api.dify.ai/v1",
+                "token": "2hvNKk3HoLIxLHM0"
+            }
+        },
+        {
+            "title": "1-2b 正確性：指定項目抽出 (Tavily版/ネット検索)",
+            "description": """特定車種の最新モデルについて、#サイトから、#項目に沿って正確な情報を収集する。
+              サイト名：https://www.bikebros.co.jp/catalog/""",
+            "variables": {
+                "company": { "description": "会社名", "default": "ヤマハ" },
+                "model": { "description": "モデル", "default": "MT-09" }
+            },
+            "system_prompt": """ 略 """,
+            "initial_prompt": "略",
+            "dify_config": {
+                "iframe_url": "https://udify.app/chatbot/fESPc0M1LRes8lNB",
+                "base_url": "https://api.dify.ai/v1",
+                "token": "fESPc0M1LRes8lNB"
+            }
         },
         {
             "title": "1-3 正確性：項目抽出立案",
@@ -33,7 +57,11 @@ TEMPLATES = {
             },
             "system_prompt": """ 略 """,
             "initial_prompt": "略",
-            "dify_url": "https://udify.app/chatbot/Esg59l58dpBfU2Iy"
+            "dify_config": {
+                "iframe_url": "https://udify.app/chatbot/Esg59l58dpBfU2Iy",
+                "base_url": "https://api.dify.ai/v1",
+                "token": "app-SpFkoCb88fAfK1HWZZMsCdwQ"
+            }
         }
     ],
     "ゆらぎ・要約・翻訳": [
@@ -47,7 +75,11 @@ TEMPLATES = {
             },
             "system_prompt": """ 略 """,
             "initial_prompt": "略",
-            "dify_url": "https://udify.app/chatbot/40cFSdfIOiNjWfJM"
+            "dify_config": {
+                "iframe_url": "https://udify.app/chatbot/40cFSdfIOiNjWfJM",
+                "base_url": "https://api.dify.ai/v1",
+                "token": "40cFSdfIOiNjWfJM"
+            }
         },
         {
             "title": "3 要約：長文レビューの要約(_)MT-09限定)",
@@ -57,7 +89,11 @@ TEMPLATES = {
             },
             "system_prompt": """ 略 """,
             "initial_prompt": "略",
-            "dify_url": "https://udify.app/chatbot/WDYGyjkBYCdzjX2a"
+            "dify_config": {
+                "iframe_url": "https://udify.app/chatbot/WDYGyjkBYCdzjX2a",
+                "base_url": "https://api.dify.ai/v1",
+                "token": "WDYGyjkBYCdzjX2a"
+            }
         },
         {
             "title": "4 翻訳：インドネシア語の翻訳)",
@@ -67,7 +103,11 @@ TEMPLATES = {
             },
             "system_prompt": """ 略 """,
             "initial_prompt": "略",
-            "dify_url": "https://udify.app/chatbot/2RY8YDGM6aS4tmGz"
+            "dify_config": {
+                "iframe_url": "https://udify.app/chatbot/2RY8YDGM6aS4tmGz",
+                "base_url": "https://api.dify.ai/v1",
+                "token": "2RY8YDGM6aS4tmGz"
+            }
         }
     ]
 }

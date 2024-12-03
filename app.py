@@ -1,5 +1,28 @@
 import streamlit as st
+from streamlit.components.v1 import html
+import json
+import gzip
+import base64
+from urllib.parse import quote
+
 from templates import TEMPLATES
+
+# 変数をエンコードする関数
+def urlencode_difi_variable(value):
+    """
+    値をGZIP圧縮してbase64エンコードする
+    1. 文字列をUTF-8でバイトに変換
+    2. GZIPで圧縮
+    3. base64でエンコード
+    4. URLエンコード
+    """
+    # 文字列をGZIP圧縮
+    compressed = gzip.compress(value.encode('utf-8'))
+    # base64エンコード
+    b64 = base64.b64encode(compressed)
+    # URLエンコード
+    return quote(b64.decode('utf-8'))
+
 
 # ページ設定
 st.set_page_config(
@@ -10,22 +33,36 @@ st.set_page_config(
 # カスタムCSS
 st.markdown("""
     <style>
-        /* メニューリンクのスタイル */
-        .template-link {
-            display: block;
-            padding: 0.5rem 0;
-            color: #1f2937;
-            text-decoration: none;
-            cursor: pointer;
-        }
-        .template-link:hover {
-            color: #2563eb;
-            background-color: #f3f4f6;
+        /* メニューアイテムのコンテナスタイル */
+        .menu-item-container {
+            border: 1px solid #dee2e6;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            margin-bottom: 0.8rem;
+            background-color: #ffffff;
         }
         
-        /* プレースホルダーコンテナ */
+        /* メニュータイトルと説明のスタイル */
+        .menu-title {
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+        
+        .menu-description {
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 0.8rem;
+        }
+
+        /* チャットコンテナのスタイル */
+        .chat-container {
+            height: calc(100vh - 80px);  /* ビューポートの高さから上部マージンを引く */
+            width: 100%;
+            margin-top: 1rem;
+        }
+        
         .placeholder-container {
-            height: 80vh;
+            height: calc(100vh - 80px);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -33,26 +70,16 @@ st.markdown("""
             border-radius: 0.5rem;
             margin: 1rem;
         }
-        
-        .placeholder-text {
-            color: #666;
-            font-size: 1.2rem;
-            text-align: center;
-        }
 
-        /* チャットコンテナ */
-        .chat-container {
-            height: 80vh;
+        /* iframeのスタイル */
+        .chat-container iframe {
             width: 100%;
-            margin: 1rem 0;
-        }
-
-        /* フォームのスタイル */
-        .stButton button {
-            width: 100%;
+            height: 100%;
+            border: none;
         }
     </style>
 """, unsafe_allow_html=True)
+
 
 # セッション状態の初期化
 if 'selected_template' not in st.session_state:
@@ -71,12 +98,20 @@ menu_col, detail_col, chat_col = st.columns([2, 3, 5])
 # 左列：メニューエリア
 with menu_col:
     st.markdown("## メニュー")
-    # カテゴリごとのアコーディオンメニュー
     for category, templates in TEMPLATES.items():
         with st.expander(category, expanded=True):
-            for template in templates:
-                if st.button(template['title'], key=f"btn_{template['title']}", use_container_width=True):
-                    select_template(template)
+            for idx, template in enumerate(templates):
+                container = st.container()
+                with container:
+                    st.markdown(f"""
+                        <div class="menu-item-container">
+                            <div class="menu-title">{template['title']}</div>
+                            <div class="menu-description">{template['description']}</div>
+                        </div>
+                    """, unsafe_allow_html=True)
+                    if st.button("選択", key=f"btn_{idx}_{template['title']}", use_container_width=True):
+                        select_template(template)
+
 
 # 中央列：テンプレート詳細と入力フォーム
 with detail_col:
@@ -92,9 +127,7 @@ with detail_col:
             input_values = {}
             if 'variables' in template:
                 for var_name, var_info in template['variables'].items():
-                    # デフォルト値の取得
                     default_value = var_info.get('default', '') if isinstance(var_info, dict) else ''
-                    # 説明文の取得
                     description = var_info.get('description', var_info) if isinstance(var_info, dict) else var_info
                     
                     input_values[var_name] = st.text_input(
@@ -111,11 +144,10 @@ with detail_col:
             if submit_button:
                 st.session_state.selected_template = {
                     **template,
-                    'input_variables': input_values
+                    'variables': input_values
                 }
                 st.session_state.chat_started = True
     else:
-        # 初期表示
         st.markdown(
             """
             <div class="placeholder-container">
@@ -130,15 +162,23 @@ with chat_col:
     if st.session_state.chat_started and st.session_state.selected_template:
         template = st.session_state.selected_template
         
-        # URLパラメータの構築
-        chat_url = template['dify_url']
-        if 'input_variables' in template:
-            params = []
-            for var_name, var_value in template['input_variables'].items():
-                if var_value:
-                    params.append(f"{var_name}={var_value}")
-            if params:
-                chat_url += "?" + "&".join(params)
+        # ベースURLの取得
+        chat_url = template['dify_config']['iframe_url']
+        
+        # 変数のエンコードと追加
+        params = []
+        if 'variables' in template:
+            for var_name, var_info in template['variables'].items():
+                # 入力値の取得（入力値があればそれを使用、なければデフォルト値を使用）
+                value = (template.get('variables', {}).get(var_name) or 
+                        var_info.get('default', ''))
+                if value:  # 値が存在する場合
+                    encoded_value = urlencode_difi_variable(value)
+                    params.append(f"{var_name}={encoded_value}")
+
+        # URLの組み立て
+        if params:
+            chat_url += "?" + "&".join(params)
         
         # iframeの表示
         st.markdown(
@@ -165,3 +205,4 @@ with chat_col:
             """,
             unsafe_allow_html=True
         )
+
