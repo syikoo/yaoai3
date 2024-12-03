@@ -205,4 +205,3 @@ with chat_col:
             """,
             unsafe_allow_html=True
         )
-
