@@ -17,22 +17,6 @@ TEMPLATES = {
             }
         },
         {
-            "title": "1-2 正確性：指定項目抽出 (ネット検索)",
-            "description": """特定車種の最新モデルについて、#サイトから、#項目に沿って正確な情報を収集する。
-              サイト名：https://www.bikebros.co.jp/catalog/""",
-            "variables": {
-                "company": { "description": "会社名", "default": "ヤマハ" },
-                "model": { "description": "モデル", "default": "MT-09" }
-            },
-            "system_prompt": """ 略 """,
-            "initial_prompt": "略",
-            "dify_config": {
-                "iframe_url": "https://udify.app/chatbot/2hvNKk3HoLIxLHM0",
-                "base_url": "https://api.dify.ai/v1",
-                "token": "2hvNKk3HoLIxLHM0"
-            }
-        },
-        {
             "title": "1-2 正確性：指定項目抽出 (Tavily版/ネット検索)",
             "description": """特定車種の最新モデルについて、#サイトから、#項目に沿って正確な情報を収集する。
               サイト名：https://www.bikebros.co.jp/catalog/""",
