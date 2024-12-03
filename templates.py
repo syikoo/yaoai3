@@ -33,7 +33,7 @@ TEMPLATES = {
             }
         },
         {
-            "title": "1-2b 正確性：指定項目抽出 (Tavily版/ネット検索)",
+            "title": "1-2 正確性：指定項目抽出 (Tavily版/ネット検索)",
             "description": """特定車種の最新モデルについて、#サイトから、#項目に沿って正確な情報を収集する。
               サイト名：https://www.bikebros.co.jp/catalog/""",
             "variables": {
@@ -53,7 +53,7 @@ TEMPLATES = {
             "description": """競合他社ごとに、**特定車種Aと競合する可能性のあるモデル**を競合になりうる順に順位付けする。""",
             "variables": {
                 "company": { "description": "会社名", "default": "ヤマハ" },
-                "model": { "description": "モデル", "default": "MT-09" }
+                "model": { "description": "モデル", "default": "MT-09/Y-AMT（2024年モデル）" }
             },
             "system_prompt": """ 略 """,
             "initial_prompt": "略",
@@ -70,8 +70,8 @@ TEMPLATES = {
             "description": "対象車種の部品に関するレビュー情報を検索し、指定された用語について以下の条件に従い情報を抜き出す",
             "variables": {
                 "company": { "description": "会社名", "default": "ヤマハ" },
-                "model": { "description": "モデル", "default": "MT-09" },
-                "part_name": { "description": "部品名", "default": "ブレーキ" }
+                "model": { "description": "モデル", "default": "MT-09/Y-AMT（2024年モデル）  " },
+                "part_name": { "description": "部品名", "default": "Radiator" }
             },
             "system_prompt": """ 略 """,
             "initial_prompt": "略",
