@@ -3,7 +3,7 @@ TEMPLATES = {
     "正確性": [
         {
             "title": "1-1 正確性：指定項目抽出 (テキスト文)",
-            "description": "特定車種の最新モデルについて、#項目に沿って正確な情報を収集する",
+            "description": "(基本的な技術検証) あらかじめ用意したモデルのテキスト文に対して、指定項目に沿って正確な情報を収集する",
             "variables": {
                 "company": { "description": "会社名", "default": "ヤマハ" },
                 "model": { "description": "モデル", "default": "MT-09" }
@@ -17,8 +17,8 @@ TEMPLATES = {
             }
         },
         {
-            "title": "1-2 正確性：指定項目抽出 (Tavily版/ネット検索)",
-            "description": """特定車種の最新モデルについて、#サイトから、#項目に沿って正確な情報を収集する。
+            "title": "1-2 正確性：指定項目抽出 (ネット検索)",
+            "description": """特定車種の最新モデルについて、ネット検索にて、指定項目に沿って正確な情報を収集する。
               サイト名：https://www.bikebros.co.jp/catalog/""",
             "variables": {
                 "company": { "description": "会社名", "default": "ヤマハ" },
@@ -34,7 +34,7 @@ TEMPLATES = {
         },
         {
             "title": "1-3 正確性：項目抽出立案",
-            "description": """競合他社ごとに、**特定車種Aと競合する可能性のあるモデル**を競合になりうる順に順位付けする。""",
+            "description": """競合他社ごとに、**特定車種と競合する可能性のあるモデル**を、競合になりうる順に順位付けする。""",
             "variables": {
                 "company": { "description": "会社名", "default": "ヤマハ" },
                 "model": { "description": "モデル", "default": "MT-09/Y-AMT（2024年モデル）" }
@@ -64,10 +64,12 @@ TEMPLATES = {
                 "base_url": "https://api.dify.ai/v1",
                 "token": "40cFSdfIOiNjWfJM"
             }
-        },
+        }
+    ],
+    "要約・翻訳": [
         {
-            "title": "3 要約：長文レビューの要約(_)MT-09限定)",
-            "description": "添付のレビュー情報を、バイクの設計者が新しいバイクの設計に活かせる部分を抜粋し、指定字数以内で要約する",
+            "title": "3 要約：長文レビューの要約 (MT-09固定テキスト)",
+            "description": "入力されたテキスト文を指定字数以内で要約する。想定シナリオ：あるモデルのレビュー情報テキストを設計者が新しいモデルの設計に活かせる部分を抜粋する",
             "variables": {
                 "Charactor_count": { "description": "要約した結果の文字数", "default": "200" }
             },

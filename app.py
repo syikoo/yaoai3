@@ -26,7 +26,7 @@ def urlencode_difi_variable(value):
 
 # ページ設定
 st.set_page_config(
-    page_title="Auto Repair AI Assistant",
+    page_title="自動車系AI Assistant",
     layout="wide"
 )
 
@@ -97,7 +97,7 @@ menu_col, detail_col, chat_col = st.columns([2, 3, 5])
 
 # 左列：メニューエリア
 with menu_col:
-    st.markdown("## メニュー")
+    st.markdown("## 生成AI技術評価メニュー")
     for category, templates in TEMPLATES.items():
         with st.expander(category, expanded=True):
             for idx, template in enumerate(templates):
