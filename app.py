@@ -117,7 +117,7 @@ with menu_col:
 with detail_col:
     if st.session_state.selected_template:
         template = st.session_state.selected_template
-        st.markdown("## テンプレート詳細")
+        st.markdown("## 調査内容の指定")
         st.markdown(f"### {template['title']}")
         st.markdown(template['description'])
         
